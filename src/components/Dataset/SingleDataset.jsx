@@ -292,6 +292,34 @@ export default function SingleDataset() {
     setNewFileOpen(false);
   }
 
+
+   // Function to download readme file 
+  const handleDownloadReadme = () => {
+
+  const frontendBase = window.location.origin;
+
+  const datasetUrl = `${frontendBase}/dataset/${datasetId}`;
+
+  const content = `# Dataset README
+
+Dataset detail page:
+${datasetUrl}
+`;
+
+  const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `README_dataset_${datasetId}.md`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+};
+
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -487,6 +515,24 @@ export default function SingleDataset() {
                           </Button>
                         </Tooltip>
                         <Divider sx={{ my: 2 }} />
+
+                
+
+                        {/* readme button */}
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>README File</Typography>
+
+                        <Tooltip title="Download a README containing the dataset backlink">
+                          <Button
+                            variant="outlined"
+                            sx={{ mt: 1, textTransform: "none" }}
+                            onClick={handleDownloadReadme}
+                          >
+                            Download README
+                          </Button>
+                        </Tooltip>
+
+                        <Divider sx={{ my: 2 }} />
+
 
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Other views</Typography>
                         {/*<Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/dashboard')}>All Samples View</Button> */}
